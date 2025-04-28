@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block title %}Mach Exchange Statistics{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <section class="metrics-section">
+        <h1 class="dashboard-title">Mach Exchange Information</h1>
+        
+        <h2 class="section-title">Statistics</h2>
+        
+        <div class="metric-box">
+            <h3>Previous Day Volume</h3>
+            <p class="metric-value">${{ "{:,.2f}".format(metrics.last_day_v) }}</p>
+        </div>
+        
+        <div class="dropdown">
+            <button onclick="toggleDropdown()" class="dropbtn">All Time</button>
+            <div id="timeRangeDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="15">Last 15 Days</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-box">
+                <h3>Total Volume</h3>
+                <p class="metric-value">${{ "{:,.2f}".format(metrics.total_volume) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Total Users</h3>
+                <p class="metric-value">{{ "{:,}".format(metrics.total_users) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Total Trades</h3>
+                <p class="metric-value">{{ "{:,}".format(metrics.trade_count) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Average Trades Per User</h3>
+                <p class="metric-value">{{ metrics.average_trades }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Users With Multiple Trades</h3>
+                <p class="metric-value">{{ metrics.perc_above }}%</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Total volume charts -->
+    <section class="daily-charts-section">
+        <h2 class="section-title">Short Term Volume Graphs</h2>
+        <div class="charts-container daily-weekly-charts">
+            <div class="chart-box">
+                <h3>Volume By Hour During The Previous Day</h3>
+                <div id="hourlyVolumeChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Volume In The Last Week</h3>
+                <div id="weeklyVolumeChart"></div>
+            </div>
+        </div>
+
+        <div class="mach-trades-time-selector">
+            <div class="dropdown">
+                <button onclick="toggleMachTradesDropdown()" class="dropbtn">Last 7 Days</button>
+                <div id="machTradesDropdown" class="dropdown-content">
+                    <a href="#" data-value="0.5">Last 12 Hours</a>
+                    <a href="#" data-value="1">Last 24 Hours</a>
+                    <a href="#" data-value="3">Last 3 Days</a>
+                    <a href="#" data-value="5">Last 5 Days</a>
+                    <a href="#" data-value="7">Last 7 Days</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-container mach-trades-chart">
+            <div class="chart-box">
+                <h3>Mach Trades</h3>
+                <div id="machTradesChart"></div>
+            </div>
+        </div>
+        
+        <div class="charts-container mach-volume-charts">
+            <div class="chart-box">
+                <h3>Mach Volume by Chains</h3>
+                <div id="machChainVolumeChart"></div>
+            </div>
+
+            <div class="chart-box">
+                <h3>Mach Volume by Asset</h3>
+                <div id="machAssetVolumeChart"></div>
+            </div>
+        </div>
+
+        <!-- Add new time selector -->
+        <div class="dropdown">
+            <button onclick="toggleShortTermDropdown()" class="dropbtn">Last 7 Days</button>
+            <div id="shortTermDropdown" class="dropdown-content">
+                <a href="#" data-value="1">Last 24 Hours</a>
+                <a href="#" data-value="3">Last 3 Days</a>
+                <a href="#" data-value="7">Last 7 Days</a>
+                <a href="#" data-value="14">Last 14 Days</a>
+            </div>
+        </div>
+
+        <!-- Add container for new charts -->
+        <div class="charts-container cumulative-charts">
+            <div class="chart-box">
+                <h3>Cumulative Volume</h3>
+                <div id="cumulativeVolumeChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Cumulative Trades</h3>
+                <div id="cumulativeTradesChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>New Users</h3>
+                <div id="cumulativeUsersChart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts section -->
+    <section class="long-term-charts-section">
+        <h2 class="section-title">Long Term Volume Graphs</h2>
+        <div class="dropdown">
+            <button onclick="toggleLongTermDropdown()" class="dropbtn">All Time</button>
+            <div id="longTermDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <!-- Add asset breakdown section -->
+        <div class="dropdown asset-dropdown">
+            <button onclick="toggleAssetDropdown()" class="dropbtn">Select Assets</button>
+            <div id="assetDropdown" class="dropdown-content">
+                <!-- Assets will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="selected-assets">
+            <div class="selected-assets-list">
+                <!-- Selected assets will be shown here -->
+            </div>
+        </div>
+
+        <div class="charts-container long-term-volume-charts">
+            <div class="chart-box">
+                <h3>Total Volume Over Time</h3>
+                <div id="totalVolumeLineChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Weekly Average Volume</h3>
+                <div id="weeklyAverageLineChart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add this right before the volume-distribution-section -->
+    <section class="volume-distribution-section">
+        <h2 class="section-title"></h2>
+        <div class="dropdown">
+            <button onclick="toggleVolumeDistributionDropdown()" class="dropbtn">All Time</button>
+            <div id="volumeDistributionDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="15">Last 15 Days</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+        
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>Source Chain Volume Distribution</h3>
+                <div class="chart-scroll-container">
+                    <div id="sourceVolumeHistogram"></div>
+                </div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Destination Chain Volume Distribution</h3>
+                <div id="destVolumeHistogram"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Total Chain Volume Distribution</h3>
+                <div id="totalVolumeHistogram"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="volume-distribution-section-2"></section>
+        <!-- Replace the existing pie charts container with this -->
+        <h2 class="section-title"></h2>
+        <div class="dropdown">
+            <button onclick="togglePieChartDropdown()" class="dropbtn">All Time</button>
+            <div id="pieChartDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="15">Last 15 Days</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+        <div class="charts-container pie-charts-row pie-volume-charts">
+            <div class="chart-box">
+                <h3>Volume by Chain</h3>
+                <div class="pie-container">
+                    <div id="chainPie"></div>
+                    <div class="chart-legend chain-legend scrollable-legend"></div>
+                </div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Volume by Asset</h3>
+                <div class="pie-container">
+                    <div id="assetPie"></div>
+                    <div class="chart-legend asset-legend scrollable-legend"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Replace the existing sankey-section -->
+    <section class="sankey-section">
+        <h2 class="section-title">Asset Flows</h2>
+        <div class="dropdown">
+            <button onclick="toggleSankeyDropdown()" class="dropbtn">All Time</button>
+            <div id="sankeyDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="15">Last 15 Days</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <div class="sankey-row sankey-charts">
+            <div class="chart-box">
+                <h3>Asset Flow</h3>
+                <div id="assetSankey"></div>
+            </div>
+        </div>
+        
+        <div class="sankey-row sankey-charts">
+            <div class="chart-box">
+                <h3>Chain Flow</h3>
+                <div id="chainSankey"></div>
+            </div>
+        </div>
+        
+        <div class="sankey-row sankey-charts">
+            <div class="chart-box">
+                <h3>Asset-Chain Pair Flow</h3>
+                <div id="pairSankey"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add after the sankey-section -->
+    <section class="user-analysis-section">
+        <h2 class="section-title">User Analysis</h2>
+        
+        <div class="dropdown">
+            <button onclick="toggleUserAnalysisDropdown()" class="dropbtn">All Time</button>
+            <div id="userAnalysisDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="7">Last Week</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <div class="charts-container user-portion-charts">
+            <div class="chart-box">
+                <h3>User Portion by Trade</h3>
+                <div id="tradeDistributionChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>User Portion by Volume</h3>
+                <div id="volumeDistributionChart"></div>
+            </div>
+        </div>
+
+        <div class="user-tables-container">
+            <div class="table-box">
+                <h3>Users With The Most Trades</h3>
+                <div class="scrollable-table" id="tradeTable"></div>
+            </div>
+            
+            <div class="table-box">
+                <h3>Users With The Most Volume</h3>
+                <div class="scrollable-table" id="volumeTable"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fill Time Visualizations Section -->
+    <section class="fill-time-section">
+        <h2 class="section-title">Fill Time Visualizations</h2>
+        
+        <div class="dropdown">
+            <button onclick="toggleFillTimeDropdown()" class="dropbtn">Last 30 Days</button>
+            <div id="fillTimeDropdown" class="dropdown-content">
+                <a href="#" data-value="30">Last 30 Days</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+                <a href="#" data-value="all">All Time</a>
+            </div>
+        </div>
+        
+        <div class="charts-container fill-time-charts">
+            <div class="chart-box">
+                <h3>Median Fill Time by Chain Pair</h3>
+                <div id="fillTimeChainPairChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Median Fill Time by Date</h3>
+                <div id="fillTimeDateChart"></div>
+            </div>
+        </div>
+        
+        <div class="charts-container fill-time-tables">
+            <div class="chart-box">
+                <h3>Source Chain Median Fill Time</h3>
+                <div id="sourceChainFillTimeTable"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Destination Chain Median Fill Time</h3>
+                <div id="destChainFillTimeTable"></div>
+            </div>
+        </div>
+        
+        <div class="fill-time-tables fill-time-extremes">
+            <div class="chart-box">
+                <h3>Orders with the Ten Lowest Fill Times</h3>
+                <div id="lowestFillTimesTable"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Orders with the Ten Highest Fill Times</h3>
+                <div id="highestFillTimesTable"></div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

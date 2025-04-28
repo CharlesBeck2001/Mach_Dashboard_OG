@@ -1,0 +1,770 @@
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #2d2d2d;
+    --accent-color: #4CAF50;
+    --text-color: #ffffff;
+    --row-width: 1200px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.dashboard-container {
+    width: var(--row-width);
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    background-color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+header h1 {
+    color: var(--accent-color);
+    font-size: 24px;
+}
+
+.dashboard-title {
+    text-align: center;
+    color: var(--text-color);
+    margin: 2rem 0;
+    font-size: 2rem;
+}
+
+/* Metrics section */
+.metrics-section {
+    width: 100%;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.metric-box {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+.metric-box h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin: 0;
+}
+
+/* Dropdown styling */
+.dropdown {
+    position: relative;  /* Add this */
+    width: 96%;
+    text-align: center;
+    margin: 2rem auto;
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.dropbtn {
+    width: 300px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;  /* Smooth transitions */
+}
+
+.dropbtn:hover {
+    background-color: #3d8c40;  /* Slightly darker green */
+    transform: translateY(-1px);  /* Slight lift effect */
+}
+
+.dropbtn:active {
+    transform: translateY(0);  /* Press effect */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 50%;           /* Add this */
+    transform: translateX(-50%);  /* Add this */
+    background-color: var(--secondary-color);
+    min-width: 300px;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+.dropdown-content a {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease, padding-left 0.2s ease;  /* Smooth transitions */
+}
+
+.dropdown-content a:hover {
+    background-color: #3d3d3d;
+    padding-left: 20px;  /* Slight indent on hover */
+}
+
+.show {
+    display: block;
+}
+
+/* Charts containers */
+.charts-container {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.cumulative-charts .chart-box {
+    height: 500px !important;  /* Override the default height just for these boxes */
+}
+
+.daily-weekly-charts .chart-box {
+    height: 600px !important;  /* Increased from 500px to 600px */
+}
+
+.mach-trades-chart {
+    display: flex;
+    gap: 2rem;
+    margin: 0 0 2rem;
+}
+
+.mach-trades-chart .chart-box {
+    flex: 1;
+    height: 500px !important;
+}
+
+.mach-volume-charts {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.mach-volume-charts .chart-box {
+    flex: 1;
+    height: 450px !important;
+}
+
+.user-portion-charts .chart-box {
+    height: 500px !important;
+}
+
+.long-term-volume-charts .chart-box {
+    height: 650px !important;  /* Reduced height now that legend is fixed */
+}
+
+.pie-volume-charts .chart-box {
+    height: 850px !important;  /* Make these boxes taller */
+}
+
+.chart-box {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    height: 800px !important;  /* Make boxes taller */
+    margin-bottom: 2rem;
+}
+
+.chart-box h3 {
+    margin: 0 0 1rem 0;
+    text-align: center;
+    color: var(--text-color);
+}
+
+#hourlyVolumeChart,
+#weeklyVolumeChart,
+#totalVolumeLineChart,
+#weeklyAverageLineChart {
+    height: 600px;
+    width: 100%;
+}
+
+/* Asset selector */
+.selected-assets {
+    width: 97%;
+    margin: 2rem 0;
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+.selected-assets-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.selected-asset-tag {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;  /* Smooth transitions */
+}
+
+.selected-asset-tag:hover {
+    background-color: #3d8c40;  /* Slightly darker green */
+    transform: translateY(-1px);  /* Slight lift effect */
+}
+
+.selected-asset-tag button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+    opacity: 0.8;  /* Slightly transparent by default */
+    transition: opacity 0.2s ease;  /* Smooth transition */
+}
+
+.selected-asset-tag button:hover {
+    opacity: 1;  /* Full opacity on hover */
+}
+
+/* Add these styles */
+.volume-distribution-section {
+    margin: 2rem 0;
+    width: var(--row-width);  /* Match the dashboard width */
+}
+
+.volume-distribution-section .charts-container {
+    display: flex;
+    flex-direction: row;  /* Changed from column to row */
+    gap: 1rem;  /* Reduced gap to fit charts */
+    width: 100%;
+}
+
+.volume-distribution-section .chart-box {
+    flex: 1;
+    width: calc((var(--row-width) - 2rem) / 3);
+    height: 500px;  /* Match the height from the Plotly layout */
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    overflow-y: auto;  /* Make it scrollable */
+    overflow-x: hidden;
+}
+
+/* Style the scrollbar */
+.volume-distribution-section .chart-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.volume-distribution-section .chart-box::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.volume-distribution-section .chart-box::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+/* Ensure the plot container takes up the full width */
+.volume-distribution-section .chart-box > div {
+    width: 100% !important;
+}
+
+.pie-charts-container {
+    margin-top: 2rem;
+    width: 100% !important;
+    height: 450px !important;
+}
+
+.pie-charts-container #volumePieCharts {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Update pie charts styling */
+.pie-charts-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.pie-charts-row .chart-box {
+    flex: 1;
+    width: calc((var(--row-width) - 1rem) / 2);  /* Split width between two boxes */
+    height: auto;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pie-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 900px;  /* Increased container height */
+}
+
+.pie-container > div:first-child {
+    flex: 1;
+    min-height: 750px;  /* Increased minimum height for pie chart */
+}
+
+.pie-container > div:last-child {
+    flex: 0 0 auto;  /* Don't grow, don't shrink, auto basis */
+}
+
+.chart-legend.scrollable-legend {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 20px;  /* Increased top margin */
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+}
+
+.scrollable-legend::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-legend::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.scrollable-legend::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.legend-item.disabled {
+    opacity: 0.5;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 2px;
+}
+
+.legend-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.sankey-section {
+    margin: 2rem 0;
+    width: var(--row-width);
+}
+
+.sankey-row {
+    margin-bottom: 2rem;
+    width: 97%;  /* Match dashboard width */
+}
+
+.sankey-row .chart-box {
+    width: 100%;
+    height: 600px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+#assetSankey,
+#chainSankey,
+#pairSankey {
+    width: 100%;
+    height: 100%;
+}
+
+.user-analysis-section {
+    margin: 2rem 0;
+    width: var(--row-width);
+}
+
+.user-tables-container {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.table-box {
+    flex: 1;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.scrollable-table {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.scrollable-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scrollable-table th,
+.scrollable-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.scrollable-table th {
+    position: sticky;
+    top: 0;
+    background-color: var(--secondary-color);
+    z-index: 1;
+}
+
+.truncate-address {
+    display: inline-block;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--accent-color);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: var(--secondary-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--accent-color);
+}
+
+#fullAddress {
+    word-break: break-all;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.scrollable-table table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.scrollable-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin: 2rem 0 1rem 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.js-plotly-plot .scrollbox {
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    max-height: 200px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #7f7f7f #2d2d2d !important;
+}
+
+.js-plotly-plot .scrollbox::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+}
+
+.js-plotly-plot .scrollbox::-webkit-scrollbar-track {
+    background: #2d2d2d !important;
+    border-radius: 3px !important;
+}
+
+.js-plotly-plot .scrollbox::-webkit-scrollbar-thumb {
+    background: #7f7f7f !important;
+    border-radius: 3px !important;
+}
+
+/* Force scrollbar to always show */
+.js-plotly-plot .scrollbox::-webkit-scrollbar-thumb:vertical {
+    min-height: 30px !important;
+}
+
+/* Override Plotly's legend styles */
+.js-plotly-plot .legend {
+    max-height: 200px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+
+.js-plotly-plot .legend .scrollbox {
+    max-height: 200px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+
+/* Force scrollbar to show */
+.js-plotly-plot .legend::-webkit-scrollbar,
+.js-plotly-plot .legend .scrollbox::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+    display: block !important;
+}
+
+.js-plotly-plot .legend::-webkit-scrollbar-track,
+.js-plotly-plot .legend .scrollbox::-webkit-scrollbar-track {
+    background: #2d2d2d !important;
+    border-radius: 4px !important;
+}
+
+.js-plotly-plot .legend::-webkit-scrollbar-thumb,
+.js-plotly-plot .legend .scrollbox::-webkit-scrollbar-thumb {
+    background: #7f7f7f !important;
+    border-radius: 4px !important;
+    min-height: 40px !important;
+}
+
+/* Firefox scrollbar */
+.js-plotly-plot .legend,
+.js-plotly-plot .legend .scrollbox {
+    scrollbar-width: thin !important;
+    scrollbar-color: #7f7f7f #2d2d2d !important;
+}
+
+/* Force legend container to have a minimum height */
+.js-plotly-plot .legend .scrollbox {
+    min-height: 100px !important;
+}
+
+.chart-scroll-container {
+    max-height: none;  /* Remove height limit */
+    overflow-y: visible;  /* Remove scrolling */
+}
+
+.chart-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chart-scroll-container::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.chart-scroll-container::-webkit-scrollbar-thumb {
+    background: #7f7f7f;
+    border-radius: 4px;
+}
+
+.sankey-charts .chart-box {
+    height: 530px !important;  /* Override the default height just for these boxes */
+}
+
+#asset-tooltip {
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: opacity 0.2s ease;
+}
+
+.mach-trades-time-selector {
+    width: 100%;
+    margin: 2rem 0 2rem;
+    text-align: center;
+}
+
+.mach-trades-time-selector .dropdown {
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
+    width: 97%;
+    padding: 1rem;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+.fill-time-section {
+    margin: 2rem 0;
+}
+
+.fill-time-charts {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.fill-time-charts .chart-box {
+    flex: 1;
+    height: 500px !important;
+}
+
+.fill-time-tables {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.fill-time-tables .chart-box {
+    flex: 1;
+    height: 450px !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.fill-time-table-container {
+    flex: 1;
+    position: relative;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.fill-time-tables .chart-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fill-time-tables .chart-box tbody {
+    display: block;
+    overflow-y: auto;
+    height: 350px;  /* Adjust this value to control scroll area height */
+}
+
+.fill-time-tables .chart-box thead,
+.fill-time-tables .chart-box tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.fill-time-tables .chart-box thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--secondary-color);
+    z-index: 10;
+}
+
+.fill-time-tables .chart-box th,
+.fill-time-tables .chart-box td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Specific alignment for the rank column */
+.fill-time-tables .chart-box td:first-child,
+.fill-time-tables .chart-box th:first-child {
+    text-align: center;
+}
+
+/* Specific alignment for the fill time column */
+.fill-time-tables .chart-box td:last-child,
+.fill-time-tables .chart-box th:last-child {
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+/* Style for the truncated address */
+.fill-time-tables .chart-box .truncate-address {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.fill-time-tables .chart-box th {
+    background-color: var(--secondary-color);
+    z-index: 10;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.fill-time-tables .chart-box tr:hover {
+    background-color: #2a2a2a;
+}
+
+.fill-time-extremes {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.fill-time-extremes .chart-box {
+    flex: 1;
+    height: 450px !important;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mach Exchange{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mach By Tristero</h1>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Add this script block before main.js -->
+    <script>
+        // Define all window functions first
+        window.toggleDropdown = function() {
+            document.getElementById("timeRangeDropdown").classList.toggle("show");
+        };
+        
+        window.togglePieChartDropdown = function() {
+            document.getElementById("pieChartDropdown").classList.toggle("show");
+        };
+        
+        window.toggleSankeyDropdown = function() {
+            document.getElementById("sankeyDropdown").classList.toggle("show");
+        };
+        
+        window.toggleUserAnalysisDropdown = function() {
+            document.getElementById("userAnalysisDropdown").classList.toggle("show");
+        };
+        
+        window.toggleVolumeDistributionDropdown = function() {
+            document.getElementById("volumeDistributionDropdown").classList.toggle("show");
+        };
+        
+        window.toggleLongTermDropdown = function() {
+            document.getElementById("longTermDropdown").classList.toggle("show");
+        };
+        
+        window.toggleAssetDropdown = function() {
+            document.getElementById("assetDropdown").classList.toggle("show");
+        };
+        
+        window.toggleShortTermDropdown = function() {
+            document.getElementById("shortTermDropdown").classList.toggle("show");
+        };
+    </script>
+
+    <!-- Load main.js after defining window functions -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

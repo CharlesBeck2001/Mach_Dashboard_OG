@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Mach Exchange Statistics{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <section class="metrics-section">
+        <h1 class="dashboard-title">Mach Exchange Statistics</h1>
+        
+        <div class="metric-box">
+            <h3>Previous Day Volume</h3>
+            <p class="metric-value">${{ "{:,.2f}".format(metrics.last_day_v) }}</p>
+        </div>
+        
+        <div class="dropdown">
+            <button onclick="toggleDropdown()" class="dropbtn">All Time</button>
+            <div id="timeRangeDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="15">Last 15 Days</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-box">
+                <h3>Total Volume</h3>
+                <p class="metric-value">${{ "{:,.2f}".format(metrics.total_volume) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Total Users</h3>
+                <p class="metric-value">{{ "{:,}".format(metrics.total_users) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Total Trades</h3>
+                <p class="metric-value">{{ "{:,}".format(metrics.trade_count) }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Average Trades Per User</h3>
+                <p class="metric-value">{{ metrics.average_trades }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Users With Multiple Trades</h3>
+                <p class="metric-value">{{ metrics.perc_above }}%</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Total volume charts -->
+    <section class="daily-charts-section">
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>Volume By Hour During The Previous Day</h3>
+                <div id="hourlyVolumeChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Volume In The Last Week</h3>
+                <div id="weeklyVolumeChart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts section -->
+    <section class="long-term-charts-section">
+        <!-- Second time range selector -->
+        <div class="dropdown">
+            <button onclick="toggleLongTermDropdown()" class="dropbtn">All Time</button>
+            <div id="longTermDropdown" class="dropdown-content">
+                <a href="#" data-value="all">All Time</a>
+                <a href="#" data-value="30">Last Month</a>
+                <a href="#" data-value="90">Last 3 Months</a>
+                <a href="#" data-value="180">Last 6 Months</a>
+            </div>
+        </div>
+
+        <!-- Add asset breakdown section -->
+        <div class="dropdown asset-dropdown">
+            <button onclick="toggleAssetDropdown()" class="dropbtn">Select Assets</button>
+            <div id="assetDropdown" class="dropdown-content">
+                <!-- Assets will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="selected-assets">
+            <div class="selected-assets-list">
+                <!-- Selected assets will be shown here -->
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>Total Volume Over Time</h3>
+                <div id="totalVolumeLineChart"></div>
+            </div>
+            
+            <div class="chart-box">
+                <h3>Weekly Average Volume</h3>
+                <div id="weeklyAverageLineChart"></div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
