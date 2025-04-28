@@ -33,7 +33,15 @@ TIME_RANGES = {
 # Cache for metrics
 metrics_cache = {}
 
+
+FIXED_END_DATE = "2024-04-24 17:00:00" 
+
+
 def execute_sql(query):
+
+    query = query.replace("CURRENT_TIMESTAMP", f"'{FIXED_END_DATE}'::timestamp")
+    query = query.replace("NOW()", f"'{FIXED_END_DATE}'::timestamp")
+    
     headers = {
         "apikey": SUPABASE_KEY,
         "Authorization": f"Bearer {SUPABASE_KEY}",
