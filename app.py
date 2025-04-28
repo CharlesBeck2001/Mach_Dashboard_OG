@@ -18,8 +18,8 @@ def add_header(response):
 
 
 # Constants
-SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://fzkeftdzgseugijplhsh.supabase.co')
-SUPABASE_KEY = os.environ.get('SUPABASE_KEY', 'your_default_key')
+SUPABASE_URL = os.environ.get('SUPABASE_URL')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
 
 # Time ranges
 TIME_RANGES = {
